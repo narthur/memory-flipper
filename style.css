@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  padding: 3rem;
+}
+
+body {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.matches, .cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.players {
+  min-height: 100px;
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.player {
+  border: 1px solid grey;
+  flex: 1 1 calc(50% - 1rem);
+  position: relative;
+  margin: .5rem;
+}
+
+.player input {
+  position: relative;
+  z-index: 100;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.match {
+  width: 25px;
+  height: 25px;
+  border: 1px solid grey;
+  margin: .25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-family: monospace;
+  transform: scale(1);
+  transition: transform 300ms ease-in-out;
+  background-color: white;
+  position: relative;
+  z-index: 200;
+  -webkit-backface-visibility: hidden;
+}
+
+.match.highlight {
+  transform: scale(3);
+}
+
+.match img {
+  max-width: 100%;
+}
+
+.cards {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  margin: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-family: monospace;
+  position: relative;
+  color: transparent;
+  background-color: #eb910c;
+  transition: color 300ms ease-in-out,
+    background-color 300ms ease-in-out;
+}
+
+.card:hover {
+  transform: rotate(0turn), scale(1.1);
+}
+
+.card img {
+  max-width: 80%;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.active {
+  color: black;
+  background-color: white;
+}
+
+.card::after, .player::after {
+  content: '';
+  box-shadow: 0 0 1rem black;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.active::after, .up::after {
+  opacity: 1;
+}
+
+.active img {
+  opacity: 1;
+}
+
+.taken {
+  opacity: .2;
+  color: black;
+  background-color: white;
+}
+
+.taken img {
+  opacity: 1;
+}
+
+.card, .player, .card::after, .player::after {
+  border-radius: 10px;
+}
