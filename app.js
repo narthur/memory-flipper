@@ -18,8 +18,8 @@ function setClickHandlers() {
     $('.card').off('click');
     if ($('.active').length > 1) {
       var promise = compareCards();
-      promise.then(function() {
-        switchPlayers();
+      promise.then(function(isMatch) {
+        if (!isMatch) switchPlayers();
         setClickHandlers();
       });
     } else {
@@ -45,9 +45,10 @@ function compareCards() {
   }
   return promise = new Promise((resolve, reject) => {
     setTimeout(function(){
-      if (doCardsMatch()) takeMatch();
+      var isMatch = doCardsMatch();
+      if (isMatch) takeMatch();
       clearGuess();
-      resolve();
+      resolve(isMatch);
     }, 1000);
   });
 
