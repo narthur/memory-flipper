@@ -1,11 +1,16 @@
 $(document).ready(function() {
   layDownCards();
   setClickHandlers();
-  $('input').on('keyup', function() {
-    var color = stringToColor( $(this).val() );
-    $(this).closest('.player').css('background-color',color);
-  });
+  updateColors();
 });
+
+function updateColors() {
+  var colors = getColors();
+  var players = $('.player');
+
+  $(players[0]).css('--color', colors[0]);
+  $(players[1]).css('--color', colors[1]);
+}
 
 function clearGuess() {
   $('.active').removeClass('active');
@@ -112,15 +117,22 @@ function shuffle(array) {
   return array;
 }
 
-var stringToColor = function(str) {
-  var hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  var colour = '#';
-  for (var i = 0; i < 3; i++) {
-    var value = (hash >> (i * 8)) & 0xFF;
-    colour += ('00' + value.toString(16)).substr(-2);
-  }
-  return colour;
+var getColors = function() {
+  var hue1 = Math.random() * 360
+  var hue2 = hue1 + 180
+
+  return [`hsl(${hue1}, 50%, 50%)`, `hsl(${hue2}, 50%, 50%)`]
 }
+
+// var stringToColor = function(str) {
+//   var hash = 0;
+//   for (var i = 0; i < str.length; i++) {
+//     hash = str.charCodeAt(i) + ((hash << 5) - hash);
+//   }
+//   var colour = '#';
+//   for (var i = 0; i < 3; i++) {
+//     var value = (hash >> (i * 8)) & 0xFF;
+//     colour += ('00' + value.toString(16)).substr(-2);
+//   }
+//   return colour;
+// }

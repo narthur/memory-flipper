@@ -24,10 +24,23 @@ body {
 }
 
 .player {
+  --color: white;
   border: 1px solid grey;
   flex: 1 1 calc(50% - 1rem);
   position: relative;
   margin: .5rem;
+  background-color: var(--color);
+}
+
+.player.up::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: .3;
+  background-color:  var(--color);
 }
 
 .player input {
@@ -113,7 +126,7 @@ body {
 }
 
 .active::after, .up::after {
-  opacity: 1;
+  opacity: .7;
 }
 
 .active img {
