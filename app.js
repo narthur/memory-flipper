@@ -5,11 +5,14 @@ $(document).ready(function() {
 });
 
 function updateColors() {
-  var colors = getColors();
+  var hues = getHues();
   var players = $('.player');
 
-  $(players[0]).css('--color', colors[0]);
-  $(players[1]).css('--color', colors[1]);
+  console.log(Math.round(hues[1]))
+
+  $(players[0]).css('--color', `hsl(${hues[0]}, 50%, 40%)`);
+  $(players[1]).css('--color', `hsl(${hues[2]}, 50%, 40%)`);
+  $('.card').css('--hue', `${hues[1]}`)
 }
 
 function clearGuess() {
@@ -83,7 +86,7 @@ function layDownCards() {
   var cards = makeCards(symbols, 20);
   $('.cards').append(shuffle(cards).join(''));
   $('.card').each(function() {
-    $(this).css('transform','rotate('+((Math.random() * .04)-.02)+'turn)');
+    $(this).css('--tilt',`${(Math.random() * .04)-.02}turn`);
   });
 }
 
@@ -117,11 +120,14 @@ function shuffle(array) {
   return array;
 }
 
-var getColors = function() {
+var getHues = function() {
   var hue1 = Math.random() * 360
-  var hue2 = hue1 + 180
+  var hue2 = hue1 + 90
+  var hue3 = hue2 + 90
 
-  return [`hsl(${hue1}, 50%, 50%)`, `hsl(${hue2}, 50%, 50%)`]
+  return [hue1, hue2, hue3]
+
+  return [`hsl(${hue1}, 50%, 30%)`, `hsl(${hue2}, 50%, 30%)`]
 }
 
 // var stringToColor = function(str) {
