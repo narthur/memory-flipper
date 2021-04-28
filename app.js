@@ -8,8 +8,6 @@ function updateColors() {
   var hues = getHues();
   var players = $('.player');
 
-  console.log(Math.round(hues[1]))
-
   $(players[0]).css('--color', `hsl(${hues[0]}, 50%, 40%)`);
   $(players[1]).css('--color', `hsl(${hues[2]}, 50%, 40%)`);
   $('.card').css('--hue', `${hues[1]}`)
@@ -46,12 +44,7 @@ function switchPlayers() {
 }
 
 function compareCards() {
-  if (doCardsMatch()) {
-    console.log('Match!');
-  } else {
-    console.log('Miss...');
-  }
-  return promise = new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(function(){
       var isMatch = doCardsMatch();
       if (isMatch) takeMatch();
@@ -63,17 +56,14 @@ function compareCards() {
 }
 
 function takeMatch() {
-  var symbol = $('.active').html();
-  $('.active').addClass('taken');
+  var active = $('.active')
+  var symbol = active.html();
   var match = $('<div class="match">'+symbol+'</div>')
+
+  active.addClass('taken');
+  match.css('--tilt',`${(Math.random() * .1)-.05}turn`);
+
   $('.player.up .matches').append(match);
-  setTimeout(function(){
-    match.addClass('highlight');
-  }, 300);
-  setTimeout(function(){
-    match.removeClass('highlight');
-    match.css('transform','rotate('+((Math.random() * .1)-.05)+'turn)');
-  }, 1000);
 }
 
 function doCardsMatch() {
@@ -82,17 +72,17 @@ function doCardsMatch() {
 }
 
 function layDownCards() {
-  var symbols = shuffle([...Array(40).keys()]);
-  var cards = makeCards(symbols, 20);
+  var cards = makeCards();
   $('.cards').append(shuffle(cards).join(''));
   $('.card').each(function() {
     $(this).css('--tilt',`${(Math.random() * .04)-.02}turn`);
   });
 }
 
-function makeCards(symbols, quantity) {
+function makeCards() {
+  var symbols = [...Array(40).keys()];
   var cards = [];
-  for (var i = 0; i < quantity; i++) {
+  for (var i = 0; i < 20; i++) {
     var symbol = symbols[i];
     var card = '<div class="card"><img src="animal-icons/'+(symbol+1)+'.png" /></div>';
     cards.push( card );
@@ -120,25 +110,10 @@ function shuffle(array) {
   return array;
 }
 
-var getHues = function() {
+function getHues() {
   var hue1 = Math.random() * 360
   var hue2 = hue1 + 90
   var hue3 = hue2 + 90
 
   return [hue1, hue2, hue3]
-
-  return [`hsl(${hue1}, 50%, 30%)`, `hsl(${hue2}, 50%, 30%)`]
 }
-
-// var stringToColor = function(str) {
-//   var hash = 0;
-//   for (var i = 0; i < str.length; i++) {
-//     hash = str.charCodeAt(i) + ((hash << 5) - hash);
-//   }
-//   var colour = '#';
-//   for (var i = 0; i < 3; i++) {
-//     var value = (hash >> (i * 8)) & 0xFF;
-//     colour += ('00' + value.toString(16)).substr(-2);
-//   }
-//   return colour;
-// }
